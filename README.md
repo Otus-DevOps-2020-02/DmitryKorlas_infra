@@ -92,7 +92,7 @@ gcloud compute instances create reddit-app \
 ```
 
 ## Homework result:
-testapp_IP = 35.242.232.186
+testapp_IP = 35.246.164.170
 testapp_port = 9292
 
 ## helpful links

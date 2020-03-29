@@ -21,24 +21,25 @@ echo "deb http://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.2 multiverse" 
 sudo apt-get update
 sudo apt-get --assume-yes install mongodb-org
 
-sudo tee /etc/systemd/system/mongodb.service > /dev/null <<EOT
-[Unit]
-Description=High-performance, schema-free document-oriented database
-After=network.target
-
-[Service]
-User=mongodb
-ExecStart=/usr/bin/mongod --quiet --config /etc/mongod.conf
-
-[Install]
-WantedBy=multi-user.target
-EOT
+# sudo tee /etc/systemd/system/mongodb.service > /dev/null <<EOT
+# [Unit]
+# Description=High-performance, schema-free document-oriented database
+# After=network.target
+#
+# [Service]
+# User=mongodb
+# ExecStart=/usr/bin/mongod --quiet --config /etc/mongod.conf
+#
+# [Install]
+# WantedBy=multi-user.target
+# EOT
 
 # start mongo
-sudo systemctl start mongodb
+sudo systemctl start mongod
 
 # add mongo to autorun
-sudo systemctl enable mongodb
+sudo systemctl status mongod
+sudo systemctl enable mongod
 
 # install reddit demo app
 sudo -i -u appuser bash << EOF
