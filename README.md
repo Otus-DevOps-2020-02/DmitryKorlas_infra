@@ -53,7 +53,7 @@ firewall-rules create default-puma-server \
   --direction=INGRESS \
   --priority=1000 \
   --network=default \
-  --action=ALLOW --rules=tcp:9292 \
+  --action=ALLOW --rules=tcp:27017,tcp:9292 \
   --target-tags=puma-server
 ```
 2. init app using local startup script
