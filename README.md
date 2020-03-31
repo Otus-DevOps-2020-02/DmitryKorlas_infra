@@ -70,6 +70,7 @@ gcloud compute instances create reddit-app \
 You can observer logs in this file `/var/log/syslog`
 
 3. init app using bucket startup script
+
 3.1. create bucket
 ```google cloud
 gsutil mb gs://bucket-cloud-testapp
@@ -98,3 +99,12 @@ testapp_port = 9292
 ## helpful links
 * https://codelabs.developers.google.com/codelabs/cpo200-startup-scripts/index.html
 * https://medium.com/@timtech4u/deploying-a-gcp-virtual-machine-instance-with-a-startup-script-fe5431f16e66
+
+# Homework: Lecture 7. Packer base
+Create image using variables from file.
+Required variables:
+- project_id
+- source_image_family
+```shell script
+packer build  -var-file=variables.json ./ubuntu16.json
+```
