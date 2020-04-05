@@ -108,3 +108,17 @@ Required variables:
 ```shell script
 packer build  -var-file=variables.json ./ubuntu16.json
 ```
+
+Create an image with pre-installed reddit app
+```shell script
+packer build  -var-file=variables.json ./immutable.json
+```
+
+Create a VM instance using just created image "reddit-full"
+```google cloud
+gcloud compute instances create "my-reddit-full" \
+	--image-family="reddit-full" \
+	--machine-type="f1-micro" \
+	--boot-disk-size="11" \
+	--tags="puma-server"
+```
