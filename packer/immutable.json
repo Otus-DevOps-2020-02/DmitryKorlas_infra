@@ -1,0 +1,49 @@
+{
+  "variables": {
+	"project_id": null,
+	"machine_type": "f1-micro",
+	"image_description": "Monolith reddit application example using puma daemon",
+	"tags": "puma-server",
+	"network": "default",
+	"disk_type": "pd-standard",
+	"disk_size": "11"
+  },
+  "builders": [
+	{
+	  "type": "googlecompute",
+	  "project_id": "infra-{{user `project_id`}}",
+	  "image_name": "reddit-full-{{timestamp}}",
+	  "image_family": "reddit-full",
+	  "source_image_family": "reddit-base",
+	  "zone": "europe-west1-b",
+	  "ssh_username": "appuser",
+	  "machine_type": "{{user `machine_type`}}",
+	  "image_description": "{{user `image_description`}}",
+	  "tags": "{{user `tags`}}",
+	  "network": "{{user `network`}}",
+	  "disk_type": "{{user `disk_type`}}",
+	  "disk_size": "{{user `disk_size`}}"
+	}
+  ],
+  "provisioners": [
+	{
+	  "type": "shell",
+	  "script": "scripts/install_reddit.sh",
+	  "execute_command": "sudo {{.Path}}"
+	},
+	{
+	  "type": "file",
+	  "source": "files/reddit.service",
+	  "destination": "/tmp/reddit.service"
+	},
+	{
+	  "type": "shell",
+	  "inline": [
+		"sudo cp /tmp/reddit.service /etc/systemd/system/reddit.service",
+		"sudo chmod 664 /etc/systemd/system/reddit.service",
+		"sudo systemctl daemon-reload",
+		"sudo systemctl enable reddit"
+	  ]
+	}
+  ]
+}
