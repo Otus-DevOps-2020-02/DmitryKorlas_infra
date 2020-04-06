@@ -6,8 +6,8 @@ terraform {
 provider "google" {
   # provider version
   version = "2.15"
-  project = "infra-271514"
-  region = "europe-west-1"
+  project = var.project
+  region = var.region
 }
 
 resource "google_compute_instance" "app" {
@@ -15,13 +15,13 @@ resource "google_compute_instance" "app" {
   machine_type = "g1-small"
   zone = "europe-west1-b"
   metadata = {
-	ssh-keys = "appuser:${file("~/.ssh/appuser.pub")}"
+	ssh-keys = "appuser:${file(var.public_key_path)}"
   }
   tags = ["reddit-app"]
 
   boot_disk {
 	initialize_params {
-	  image = "reddit-base"
+	  image = var.disk_image
 	}
   }
 
