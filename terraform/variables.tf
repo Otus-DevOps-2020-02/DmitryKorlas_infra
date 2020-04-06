@@ -8,7 +8,7 @@ variable region {
 }
 variable vm_zone {
   description = "Zone for VM instance"
-  default = "europe-west1-b"
+  default     = "europe-west1-b"
 }
 variable public_key_path {
   # variable description
