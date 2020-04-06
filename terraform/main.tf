@@ -13,7 +13,7 @@ provider "google" {
 resource "google_compute_instance" "app" {
   name = "reddit-app"
   machine_type = "g1-small"
-  zone = "europe-west1-b"
+  zone = var.vm_zone
   metadata = {
 	ssh-keys = "appuser:${file(var.public_key_path)}"
   }
@@ -35,7 +35,7 @@ resource "google_compute_instance" "app" {
 	host = self.network_interface[0].access_config[0].nat_ip
 	user = "appuser"
 	agent = false
-	private_key = file("~/.ssh/appuser")
+	private_key = file(var.private_key_path)
   }
 
   # order of provisioners is important. Provisioners will be applied at the same order it specified in this file
