@@ -15,7 +15,7 @@ resource "google_compute_instance" "app" {
   machine_type = "g1-small"
   zone         = var.vm_zone
   metadata = {
-    ssh-keys = "appuser:${file(var.public_key_path)}"
+    ssh-keys = "appuser:${file(var.public_key_path)}\nappuser1:${file(var.public_key_path)}\nappuser2:${file(var.public_key_path)}",
   }
   tags = ["reddit-app"]
 
