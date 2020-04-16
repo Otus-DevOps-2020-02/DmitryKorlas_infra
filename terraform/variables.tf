@@ -20,3 +20,7 @@ variable private_key_path {
 variable disk_image {
   description = "Disk image"
 }
+variable reddit_instances_count {
+  description = "amount of reddit-app instancess"
+  default     = 1
+}
