@@ -6,7 +6,7 @@ resource "google_compute_global_address" "external-address" {
 resource "google_compute_instance_group" "www-resources" {
   name      = "tf-www-resources"
   zone      = var.vm_zone
-  instances = [google_compute_instance.app.self_link]
+  instances = [google_compute_instance.app.self_link, google_compute_instance.app2.self_link]
   named_port {
     name = "http"
     port = 9292
