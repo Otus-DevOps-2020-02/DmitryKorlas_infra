@@ -127,5 +127,11 @@ gcloud compute instances create "my-reddit-full" \
 
 ## the task *
 > add ssh key for user appuser_web using web GUI into the project metadata. What kind of issues you're see?
+
 1. I see a message "SSH keys must be unique. The key has been already added.". So, it's unable to use the same key for multiple users.
 2. When I invoke `terraform apply` - the manually added ssh key (appuser_web) has been replaced by the values from terraform config. So, I see it's not reasonable to change VM instance settings manually (using web GUI) when it controlled by terraform. All changes will be overwritten by terraform during `terafform apply`.
+
+## the task **
+> manually add reddit-app2 as a second instance. What kind of problem in this configuration?
+
+The problem here is verbosity of config. We should not copy paste the same configuration. Keep DRY (dont repeat yourself) principles.
