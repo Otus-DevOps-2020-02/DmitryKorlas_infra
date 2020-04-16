@@ -2,3 +2,4 @@ project = "my-project-12345"
 public_key_path = "~/.ssh/appuser.pub"
 private_key_path = "~/.ssh/appuser"
 disk_image = "reddit-base"
+reddit_instances_count = 1

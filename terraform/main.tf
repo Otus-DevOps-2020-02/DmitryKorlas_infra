@@ -11,46 +11,8 @@ provider "google" {
 }
 
 resource "google_compute_instance" "app" {
-  name         = "reddit-app"
-  machine_type = "g1-small"
-  zone         = var.vm_zone
-  metadata = {
-    ssh-keys = "appuser:${file(var.public_key_path)}\nappuser1:${file(var.public_key_path)}\nappuser2:${file(var.public_key_path)}",
-  }
-  tags = ["reddit-app"]
-
-  boot_disk {
-    initialize_params {
-      image = var.disk_image
-    }
-  }
-
-  network_interface {
-    network = "default"
-    access_config {}
-  }
-
-  connection {
-    type        = "ssh"
-    host        = self.network_interface[0].access_config[0].nat_ip
-    user        = "appuser"
-    agent       = false
-    private_key = file(var.private_key_path)
-  }
-
-  # order of provisioners is important. Provisioners will be applied at the same order it specified in this file
-  provisioner "file" {
-    source      = "files/puma.service"
-    destination = "/tmp/puma.service"
-  }
-
-  provisioner "remote-exec" {
-    script = "files/deploy.sh"
-  }
-}
-
-resource "google_compute_instance" "app2" {
-  name         = "reddit-app2"
+  count        = var.reddit_instances_count
+  name         = "reddit-app-${count.index}"
   machine_type = "g1-small"
   zone         = var.vm_zone
   metadata = {

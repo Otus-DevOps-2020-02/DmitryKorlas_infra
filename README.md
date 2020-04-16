@@ -135,3 +135,4 @@ gcloud compute instances create "my-reddit-full" \
 > manually add reddit-app2 as a second instance. What kind of problem in this configuration?
 
 The problem here is verbosity of config. We should not copy paste the same configuration. Keep DRY (dont repeat yourself) principles.
+So, for solving this issue, we can use `count` parameter - it's helpful for creating multiple resources.
