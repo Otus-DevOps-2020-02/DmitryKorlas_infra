@@ -6,7 +6,7 @@ variable region {
   # default value
   default = "europe-west1"
 }
-variable vm_zone {
+variable zone {
   description = "Zone for VM instance"
   default     = "europe-west1-b"
 }
@@ -23,4 +23,13 @@ variable disk_image {
 variable reddit_instances_count {
   description = "amount of reddit-app instancess"
   default     = 1
+}
+variable app_disk_image {
+  description = "Disk image for reddit app"
+  default     = "reddit-app-base"
+}
+
+variable db_disk_image {
+  description = "Disk image for reddit db"
+  default     = "reddit-db-base"
 }
