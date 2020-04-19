@@ -6,7 +6,6 @@ resource google_compute_instance "app" {
   metadata = {
     ssh-keys = "appuser:${file(var.public_key_path)}"
   }
-
   boot_disk {
     initialize_params { image = var.app_disk_image }
   }

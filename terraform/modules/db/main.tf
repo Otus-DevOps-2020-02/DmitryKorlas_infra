@@ -3,6 +3,9 @@ resource "google_compute_instance" "db" {
   machine_type = "g1-small"
   zone         = var.zone
   tags         = ["reddit-db"]
+  metadata = {
+    ssh-keys = "appuser:${file(var.public_key_path)}"
+  }
   boot_disk {
     initialize_params {
       image = var.db_disk_image
@@ -11,9 +14,6 @@ resource "google_compute_instance" "db" {
   network_interface {
     network = "default"
     access_config {}
-  }
-  metadata = {
-    ssh-keys = "appuser:${file(var.public_key_path)}"
   }
 }
 
