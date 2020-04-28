@@ -12,7 +12,7 @@ provider "google" {
 module "storage-bucket" {
   source   = "SweetOps/storage-bucket/google"
   version  = "0.3.1"
-  name     = "tmp-reddit-app-storage-bucket-test"
+  name     = "reddit-app-tf-state"
   location = var.region
 }
 
