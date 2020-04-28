@@ -136,3 +136,18 @@ gcloud compute instances create "my-reddit-full" \
 
 The problem here is verbosity of config. We should not copy paste the same configuration. Keep DRY (dont repeat yourself) principles.
 So, for solving this issue, we can use `count` parameter - it's helpful for creating multiple resources.
+
+# Homework: Lecture 9. Terraform
+
+## helpful links
+https://registry.terraform.io/modules/SweetOps/storage-bucket/google/0.3.1
+
+## the task *
+> Attempt to run prod/stage configuration at the same time (simultaneously)
+
+```shell script
+terraform apply
+```
+got the error in output:
+
+*Error: Error creating Address: googleapi: Error 409: The resource 'projects/MY_PROJECT_ID/regions/europe-west1/addresses/reddit-app-ip' already exists, alreadyExists*
