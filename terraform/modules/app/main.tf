@@ -6,6 +6,13 @@ resource google_compute_instance "app" {
   metadata = {
     ssh-keys = "appuser:${file(var.public_key_path)}"
   }
+  connection {
+    type        = "ssh"
+    host        = self.network_interface[0].access_config[0].nat_ip
+    user        = "appuser"
+    agent       = false
+    private_key = file(var.private_key_path)
+  }
   boot_disk {
     initialize_params { image = var.app_disk_image }
   }
@@ -14,6 +21,23 @@ resource google_compute_instance "app" {
     access_config {
       nat_ip = google_compute_address.app_ip.address
     }
+  }
+
+  # set autostart scripts
+  provisioner "file" {
+    source      = "${path.module}/puma.service"
+    destination = "/tmp/puma.service"
+  }
+
+  # set env variables
+  provisioner "file" {
+    content     = templatefile("${path.module}/.puma.env.tmpl", { mongodb_url = var.mongodb_url })
+    destination = "/home/appuser/.puma.env"
+  }
+
+  # install app
+  provisioner "remote-exec" {
+    script = "${path.module}/deploy.sh"
   }
 }
 
