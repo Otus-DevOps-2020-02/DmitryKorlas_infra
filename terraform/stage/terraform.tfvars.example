@@ -1,0 +1,3 @@
+project          = "your-project-id"
+public_key_path  = "~/.ssh/pumarsa.pub"
+private_key_path  = "~/.ssh/pumarsa"

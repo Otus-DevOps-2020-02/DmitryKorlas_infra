@@ -6,6 +6,13 @@ resource "google_compute_instance" "db" {
   metadata = {
     ssh-keys = "appuser:${file(var.public_key_path)}"
   }
+  connection {
+    type        = "ssh"
+    host        = self.network_interface[0].access_config[0].nat_ip
+    user        = "appuser"
+    agent       = false
+    private_key = file(var.private_key_path)
+  }
   boot_disk {
     initialize_params {
       image = var.db_disk_image
@@ -14,6 +21,16 @@ resource "google_compute_instance" "db" {
   network_interface {
     network = "default"
     access_config {}
+  }
+
+  # copy mongo config to be accassible from the outside of vm
+  provisioner "file" {
+    source      = "${path.module}/mongod.conf"
+    destination = "/tmp/mongod.conf"
+  }
+
+  provisioner "remote-exec" {
+    inline = ["sudo mv /tmp/mongod.conf /etc/mongod.conf", "sudo systemctl restart mongod"]
   }
 }
 
