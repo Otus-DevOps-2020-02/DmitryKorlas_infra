@@ -191,8 +191,8 @@ ansible dbserver -m command -a uptime
 
 **ansible-playbook** command return statuses. In case ansible think it change something on host it report **changed=N** in the result output. This behaviour could be adjusted using changed_when parameter. See https://docs.ansible.com/ansible/latest/user_guide/playbooks_error_handling.html#overriding-the-changed-result for further reading.
 
-Q: run `ansible-playbook clone.yml` multiple times. Review output. Then remove the destination folder and run `ansible-playbook clone.yml` again. What's going on and why.
-so, when we run the command git clone multiple times with the same params, it will return such outputs: ansible will see there are no differences, and return the
+Question: run `ansible-playbook clone.yml` multiple times. Review output. Then remove the destination folder and run `ansible-playbook clone.yml` again. What's going on and why.
+Answer: so, when we run the command git clone multiple times with the same params, it will return such outputs: ansible will see there are no differences, and return the
 ```shell script
 ansible-playbook clone.yml
 # appserver                  : ok=2    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
@@ -205,3 +205,8 @@ ansible-playbook clone.yml
 # appserver                  : ok=2    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
 ```
 According to the output we see that ansible does not detect the changes when git clone called multiple times.
+
+## the task *
+Add a static json file for inventory. Make sure `ansible all -m ping` works correctly.
+
+Added `inventory.static.json`. To run it, use this command `ansible all -m ping -i inventory.static.json`
