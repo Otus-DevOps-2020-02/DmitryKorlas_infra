@@ -151,3 +151,57 @@ terraform apply
 got the error in output:
 
 *Error: Error creating Address: googleapi: Error 409: The resource 'projects/MY_PROJECT_ID/regions/europe-west1/addresses/reddit-app-ip' already exists, alreadyExists*
+
+# Homework: Lecture 10. Ansible
+
+## helpful links
+* https://docs.ansible.com/ansible/latest/user_guide/intro_inventory.html
+
+Ansible can run commands on multiple hosts. There are few ways to do it.
+- using cli
+    - ansible app -m command -a 'ls -la'
+    - ansible app -m shell -a 'ls -la'
+- using playbook
+    - ansible-playbook clone.yml
+
+few examples:
+```shell script
+# cloning the repo
+ansible app -m git -a 'repo=https://github.com/express42/reddit.git dest=/home/appuser/reddit_ansible'
+ansible app -m command -a 'git clone https://github.com/express42/reddit.git /home/appuser/reddit_ansible'
+```
+```shell script
+# check service status
+ansible db -m service -a name=mongod
+ansible db -m systemd -a name=mongod
+ansible db -m command -a 'systemctl status mongod'
+```
+```shell script
+# run multiple commands at once
+ansible app -m shell -a 'ruby -v; bundler -v'
+```
+```shell script
+# run command on all hosts (using './inventory.yml' YAML config)
+ansible all -m ping -i inventory.yml
+```
+```shell script
+# run command using './inventory' file
+ansible dbserver -m command -a uptime
+```
+
+**ansible-playbook** command return statuses. In case ansible think it change something on host it report **changed=N** in the result output. This behaviour could be adjusted using changed_when parameter. See https://docs.ansible.com/ansible/latest/user_guide/playbooks_error_handling.html#overriding-the-changed-result for further reading.
+
+Q: run `ansible-playbook clone.yml` multiple times. Review output. Then remove the destination folder and run `ansible-playbook clone.yml` again. What's going on and why.
+so, when we run the command git clone multiple times with the same params, it will return such outputs: ansible will see there are no differences, and return the
+```shell script
+ansible-playbook clone.yml
+# appserver                  : ok=2    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+
+ansible-playbook clone.yml
+# appserver                  : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+
+ansible app -m command -a 'rm -rf reddit'
+ansible-playbook clone.yml
+# appserver                  : ok=2    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+```
+According to the output we see that ansible does not detect the changes when git clone called multiple times.
