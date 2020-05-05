@@ -156,6 +156,7 @@ got the error in output:
 
 ## helpful links
 * https://docs.ansible.com/ansible/latest/user_guide/intro_inventory.html
+* https://gist.github.com/pydevops/cffbd3c694d599c6ca18342d3625af97
 
 Ansible can run commands on multiple hosts. There are few ways to do it.
 - using cli
@@ -209,4 +210,20 @@ According to the output we see that ansible does not detect the changes when git
 ## the task *
 Add a static json file for inventory. Make sure `ansible all -m ping` works correctly.
 
-Added `inventory.static.json`. To run it, use this command `ansible all -m ping -i inventory.static.json`
+Added `inventory.static.json`. To run it, use this command `ansible all -m ping -i inventory.static.json`.
+
+## the task **
+Implement a script for dynamic inventory
+Added a script *get-puma-inventory.sh* - it will receive an ip addresses from gcloud.
+To run the external script, ansible.cfg has a parameter *inventory*.
+
+This line indicates that external script will be called.
+```shell script
+// ansible.cfg
+inventory = ./get-puma-inventory.sh
+```
+
+so, this command is configured with the dynamic inventory.
+```
+ansible all -m ping
+```
