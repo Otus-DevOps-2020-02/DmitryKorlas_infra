@@ -12,6 +12,7 @@ module "app" {
   zone             = var.zone
   app_disk_image   = var.app_disk_image
   mongodb_url      = module.db.db_internal_ip # link through the internal network
+  enable_provisioning = var.enable_app_provisioning
 }
 
 module "db" {
@@ -20,6 +21,7 @@ module "db" {
   private_key_path = var.private_key_path
   zone             = var.zone
   db_disk_image    = var.db_disk_image
+  enable_provisioning = var.enable_db_provisioning
 }
 
 module "vpc" {
