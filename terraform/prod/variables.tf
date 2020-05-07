@@ -30,6 +30,18 @@ variable db_disk_image {
   default     = "reddit-db-base"
 }
 
+variable enable_app_provisioning {
+  description = "Enable app provisioning by puma application"
+  type = bool
+  default = true
+}
+
+variable enable_db_provisioning {
+  description = "Enable db provisioning"
+  type = bool
+  default = true
+}
+
 variable vpc_ssh_allowed_range {
   description = "A list of addresses to access via ssh"
   type        = list(string)

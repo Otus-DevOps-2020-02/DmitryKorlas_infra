@@ -18,3 +18,9 @@ variable app_disk_image {
   description = "Disk image for reddit app"
   default     = "reddit-app-base"
 }
+
+variable enable_provisioning {
+  description = "enable instance provisioning"
+  default     = true
+  type = bool
+}
