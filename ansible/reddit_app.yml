@@ -13,6 +13,7 @@
         dest: /etc/mongod.conf # path on remote host
         mode: 0644 # access rights to be set on destination file
       tags: db-tag
+      notify: restart mongod
 
     - name: Add unit file for Puma
       become: true
