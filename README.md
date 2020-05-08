@@ -140,7 +140,8 @@ So, for solving this issue, we can use `count` parameter - it's helpful for crea
 # Homework: Lecture 9. Terraform
 
 ## helpful links
-https://registry.terraform.io/modules/SweetOps/storage-bucket/google/0.3.1
+- https://registry.terraform.io/modules/SweetOps/storage-bucket/google/0.3.1
+- https://www.terraform.io/docs/provisioners/null_resource.html
 
 ## the task *
 > Attempt to run prod/stage configuration at the same time (simultaneously)
@@ -152,7 +153,7 @@ got the error in output:
 
 *Error: Error creating Address: googleapi: Error 409: The resource 'projects/MY_PROJECT_ID/regions/europe-west1/addresses/reddit-app-ip' already exists, alreadyExists*
 
-# Homework: Lecture 10. Ansible
+# Homework: Lecture 10. Ansible - basics.
 
 ## helpful links
 * https://docs.ansible.com/ansible/latest/user_guide/intro_inventory.html
@@ -219,7 +220,7 @@ To run the external script, ansible.cfg has a parameter *inventory*.
 
 This line indicates that external script will be called.
 ```shell script
-// ansible.cfg
+# ansible.cfg
 inventory = ./get-puma-inventory.sh
 ```
 
@@ -227,3 +228,14 @@ so, this command is configured with the dynamic inventory.
 ```
 ansible all -m ping
 ```
+
+# Homework: Lecture 11. Ansible - playbooks advanced.
+
+```shell script
+# run playbook in check mode (aka dry run).
+# --limits means limit the groups of hosts to apply the playbook.
+ansible-playbook reddit_app.yml --check --limit db
+```
+
+## Handlers
+Ansible has **handlers**. It's can be used for example to restart the service in case of config changes.
