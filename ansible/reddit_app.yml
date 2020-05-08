@@ -3,6 +3,8 @@
   hosts: all
   vars:
     mongo_bind_ip: 0.0.0.0 # the value for .j2 template
+    db_host: 10.132.0.14
+
   tasks:
     - name: Change mongo config file
       become: true # run on behalf of root user
@@ -11,7 +13,31 @@
         dest: /etc/mongod.conf # path on remote host
         mode: 0644 # access rights to be set on destination file
       tags: db-tag
-  handlers: # <-- Добавим блок handlers и задачу
+
+    - name: Add unit file for Puma
+      become: true
+      copy:
+        src: files/puma.service
+        dest: /etc/systemd/system/puma.service
+      tags: app-tag
+      notify: reload puma
+
+    - name: Add config for DB connection
+      template:
+        src: templates/db_config.j2
+        dest: /home/appuser/db_config
+      tags: app-tag
+
+    - name: enable puma
+      become: true
+      systemd: name=puma enabled=yes
+      tags: app-tag
+
+  handlers:
     - name: restart mongod
       become: true
       service: name=mongod state=restarted
+
+    - name: reload puma
+      become: true
+      systemd: name=puma state=restarted
