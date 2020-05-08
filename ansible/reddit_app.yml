@@ -1,0 +1,13 @@
+---
+- name: Configure hosts & deploy application
+  hosts: all
+  vars:
+    mongo_bind_ip: 0.0.0.0 # the value for .j2 template
+  tasks:
+    - name: Change mongo config file
+      become: true # run on behalf of root user
+      template:
+        src: templates/mongod.conf.j2 # path for local template file
+        dest: /etc/mongod.conf # path on remote host
+        mode: 0644 # access rights to be set on destination file
+      tags: db-tag
