@@ -11,3 +11,7 @@
         dest: /etc/mongod.conf # path on remote host
         mode: 0644 # access rights to be set on destination file
       tags: db-tag
+  handlers: # <-- Добавим блок handlers и задачу
+    - name: restart mongod
+      become: true
+      service: name=mongod state=restarted
