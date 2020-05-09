@@ -41,5 +41,28 @@
       systemd: name=puma enabled=yes
 
   handlers:
-  - name: reload puma
-    systemd: name=puma state=restarted
+    - name: reload puma
+      become: true
+      systemd: name=puma state=restarted
+
+- name: Deploy App
+  hosts: app
+  tags: deploy-tag
+
+  tasks:
+    - name: Fetch the latest version of application code
+      git:
+        repo: 'https://github.com/express42/reddit.git'
+        dest: /home/appuser/reddit
+        version: monolith # branch name
+      notify: restart puma
+
+    - name: Bundle install
+      bundler:
+        state: present
+        chdir: /home/appuser/reddit # the working dir for 'bundle'
+
+  handlers:
+    - name: restart puma
+      become: true
+      systemd: name=puma state=restarted
