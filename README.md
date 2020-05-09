@@ -237,5 +237,12 @@ ansible all -m ping
 ansible-playbook reddit_app.yml --check --limit db
 ```
 
+```shell script
+# --tags will filter tasks by tag name.
+# --limit will filter by the groups of hosts
+# so, this command will run tasks tagged with "db-tag" on hosts in group "db".
+ansible-playbook reddit_app.yml --limit db --tags db-tag
+```
+
 ## Handlers
 Ansible has **handlers**. It's can be used for example to restart the service in case of config changes.
