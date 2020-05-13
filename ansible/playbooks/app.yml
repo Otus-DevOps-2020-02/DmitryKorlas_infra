@@ -4,7 +4,8 @@
 
   vars:
     # see https://docs.ansible.com/ansible/latest/user_guide/playbooks_variables.html
-    db_host: "{{ hostvars[groups['db'][0]]['ansible_internal_host'] }}"
+    # db_host: "{{ hostvars[groups['db'][0]]['ansible_internal_host'] }}"
+    # moved to environments/stage/group_vars
 
   roles:
     - app

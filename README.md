@@ -317,3 +317,10 @@ To configure it, we have to follow few steps:
 - https://docs.ansible.com/ansible/latest/plugins/inventory/constructed.html
 - https://itnext.io/getting-started-with-red-hat-ansible-for-google-cloud-platform-fa666c42a00c
 - https://docs.ansible.com/ansible/latest/user_guide/playbooks_variables.html
+
+# Homework: Lecture 12. Ansible - roles end environments.
+
+```shell script
+# multi-env example. deploy to prod
+ansible-playbook -i environments/prod/inventory deploy.yml
+```
