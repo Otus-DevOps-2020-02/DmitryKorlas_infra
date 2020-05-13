@@ -2,7 +2,8 @@
   hosts: app
   become: true
   vars:
-    db_host: 10.132.0.27
+    # see https://docs.ansible.com/ansible/latest/user_guide/playbooks_variables.html
+    db_host: "{{ hostvars[groups['db'][0]]['ansible_internal_host'] }}"
   tasks:
     - name: Add unit file for Puma
       copy:

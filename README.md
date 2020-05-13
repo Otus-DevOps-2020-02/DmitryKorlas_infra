@@ -190,6 +190,14 @@ ansible all -m ping -i inventory.yml
 # run command using './inventory' file
 ansible dbserver -m command -a uptime
 ```
+```shell script
+# see the tree of available hosts
+ansible-inventory --graph
+```
+```shell script
+# passing env variables
+ANSIBLE_INVENTORY_ENABLED=gcp_compute $(which ansible-inventory) -i gcp_compute.yml --list --export -vvvvv
+```
 
 **ansible-playbook** command return statuses. In case ansible think it change something on host it report **changed=N** in the result output. This behaviour could be adjusted using changed_when parameter. See https://docs.ansible.com/ansible/latest/user_guide/playbooks_error_handling.html#overriding-the-changed-result for further reading.
 
@@ -246,3 +254,66 @@ ansible-playbook reddit_app.yml --limit db --tags db-tag
 
 ## Handlers
 Ansible has **handlers**. It's can be used for example to restart the service in case of config changes.
+
+## the task *
+Investigate how to deal with dynamic inventory. Describe and choose the optimal solution.
+
+Dynamic inventory implemented using [gcp_compute module](https://docs.ansible.com/ansible/latest/plugins/inventory/gcp_compute.html).
+
+To configure it, we have to follow few steps:
+1. #### add service account file
+    We have to add service account keys for accessing gcloud resources. Please follow [creating-managing-service-account-keys](https://cloud.google.com/iam/docs/creating-managing-service-account-keys#iam-service-account-keys-create-gcloud).
+
+2. #### install "requests" and "google-auth" dependencies
+    ```shell script
+    pip install -r requirements.txt
+    ```
+3. #### add inventory.gcp_compute.yml
+    Then call following command to see the inventory. Note, that `$(which ansible-inventory)` is used because of ansible-inventory unable to use python from the pyenv. See [please-install-google-auth-library-ansible-problem](https://emilwypych.com/2019/09/29/please-install-google-auth-library-ansible-problem/?cn-reloaded=1) and [how-to-change-python-version](https://stackoverflow.com/questions/59716485/ansible-how-to-change-python-version)
+
+    ```shell script
+    $(which ansible-inventory) -i gcp_compute.yml --list --export -vvvv
+    ```
+    ```shell script
+    $(which ansible-inventory) -i inventory.gcp_compute.yml --graph
+    # should output:
+    @all:
+      |--@app:
+      |  |--reddit-app
+      |--@db:
+      |  |--reddit-db
+      |--@ungrouped:
+    ```
+4. #### adjust playbooks to set parameters like IP addresses from the dynamic inventory
+    ```shell script
+    # in app.yml
+    db_host: "{{ hostvars[groups['db'][0]]['ansible_internal_host'] }}"
+    ```
+5. #### re-build packer images (optional)
+    ```shell script
+    cd PROJECT_ROOT
+    packer build  -var-file=./packer/variables.json ./packer/db.json
+    packer build  -var-file=./packer/variables.json ./packer/app.json
+    ```
+6. #### re-create environment using terraform
+    ```shell script
+    cd PROJECT_ROOT/terraform/stage
+    terraform plan
+    terraform apply
+    ```
+7. #### run ansible playbook scripts
+    ```shell script
+    cd PROJECT_ROOT/ansible
+    ansible-playbook site.yml
+    ```
+8. #### check the app using it external IP address
+    now, the app configured and ready to use.
+
+## Links
+- https://docs.ansible.com/ansible/latest/reference_appendices/faq.html#how-do-i-loop-over-a-list-of-hosts-in-a-group-inside-of-a-template
+- https://emilwypych.com/2019/09/29/please-install-google-auth-library-ansible-problem/?cn-reloaded=1
+- https://stackoverflow.com/questions/59716485/ansible-how-to-change-python-version
+- http://matthieure.me/2018/12/31/ansible_inventory_plugin.html
+- https://docs.ansible.com/ansible/latest/plugins/inventory/constructed.html
+- https://itnext.io/getting-started-with-red-hat-ansible-for-google-cloud-platform-fa666c42a00c
+- https://docs.ansible.com/ansible/latest/user_guide/playbooks_variables.html
