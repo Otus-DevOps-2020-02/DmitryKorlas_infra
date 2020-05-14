@@ -6,3 +6,6 @@ variables.json
 *.tfvars
 .terraform/
 *.retry
+
+# ansible role
+jdauphant.nginx
