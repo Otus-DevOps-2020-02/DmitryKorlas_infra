@@ -319,8 +319,25 @@ To configure it, we have to follow few steps:
 - https://docs.ansible.com/ansible/latest/user_guide/playbooks_variables.html
 
 # Homework: Lecture 12. Ansible - roles end environments.
+Ansible role is mechanism of reusing and decomposition of ansible code. It could be used to isolate a configuration of the component into re-usible block of configuration. It contains it's own tasks, templates, variables and files. As example, application can have role for db and another role for app server. It's the different components with the specific configuration.
 
+```shell script
+# skaffolding for the new role 'app'
+ansible-galaxy init app
+```
+
+Ansible has an environments mechanism. It helps to set the different variables depends on environment. For example, log level can be set to debug for stage env, but set to error for production env.
 ```shell script
 # multi-env example. deploy to prod
 ansible-playbook -i environments/prod/inventory deploy.yml
+```
+
+Using ansible it's possible to use community roles. To install it, run this command:
+```shell script
+# install dependencies
+ansible-galaxy install -r environments/stage/requirements.yml
+```
+then, apply playbook
+```shell script
+ansible-playbook -i environments/stage/inventory playbooks/site.yml
 ```
