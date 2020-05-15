@@ -360,3 +360,7 @@ To be able to connect via ssh using login+pass, the target vm (ubuntu 16, GCP) w
 * restart ssh `service ssh restart`
 * add ip into whitelist `/etc/sshguard/whitelist`
 * restart sshguard `service sshguard restart`
+
+## the task *
+Configure dynamic inventory for environments stage and prod.
+The file **inventory.gcp_compute.yml** from the previous homework has been used.
