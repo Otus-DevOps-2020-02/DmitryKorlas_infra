@@ -9,3 +9,6 @@ variables.json
 
 # ansible role
 jdauphant.nginx
+
+# secrets for ansible vault
+vault.key

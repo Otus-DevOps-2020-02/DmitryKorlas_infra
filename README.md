@@ -341,3 +341,22 @@ then, apply playbook
 ```shell script
 ansible-playbook -i environments/stage/inventory playbooks/site.yml
 ```
+Ansible vault can be used to encrypt secrets or sensitive data.
+```shell script
+# encrypt
+ansible-vault encrypt environments/prod/credentials.yml
+
+# edit encrypted file
+ansible-vault edit environments/prod/credentials.yml
+
+# decrypt
+ansible-vault decrypt environments/prod/credentials.yml
+```
+on osx it can raise a warning like *fatal: [dbserver]: FAILED! => {"msg": "crypt.crypt not supported on Mac OS X/Darwin, install passlib python module"}
+*. passlib should be installed (it's added to ansible/requirements.txt)
+
+To be able to connect via ssh using login+pass, the target vm (ubuntu 16, GCP) was reconfigured. **It became less secure**, so it's done only for as exercise:
+* set `PasswordAuthentication yes` into "/etc/ssh/sshd_config"
+* restart ssh `service ssh restart`
+* add ip into whitelist `/etc/sshguard/whitelist`
+* restart sshguard `service sshguard restart`
