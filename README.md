@@ -364,3 +364,5 @@ To be able to connect via ssh using login+pass, the target vm (ubuntu 16, GCP) w
 ## the task *
 Configure dynamic inventory for environments stage and prod.
 The file **inventory.gcp_compute.yml** from the previous homework has been used.
+
+Travis config could be checked [online](https://config.travis-ci.com/explore).
