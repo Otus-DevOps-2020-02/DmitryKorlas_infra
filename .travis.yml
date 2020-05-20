@@ -30,20 +30,33 @@ jobs:
         - packer validate -var-file=./packer/variables.json.example ./packer/db.json
         - packer validate -var-file=./packer/variables.json.example -syntax-only ./packer/ubuntu16.json
 
-    - name: validate terraform configs
+    - name: check terraform configs
       language: generic
       before_install:
         - ./scripts/install_terraform.sh $TF_VERSION
         - ./scripts/install_tflint.sh $TFLINT_VERSION
       script:
+        - echo "Will check terraform/stage configs"
         - cd "$TRAVIS_BUILD_DIR"/terraform/stage
         - terraform init -backend=false
         - terraform validate
         - tflint --var-file=terraform.tfvars.example
+        - echo "Will check terraform/prod configs"
         - cd "$TRAVIS_BUILD_DIR"/terraform/prod
         - terraform init -backend=false
         - terraform validate
         - tflint --var-file=terraform.tfvars.example
+
+    - name: check ansible playbooks
+      languange: python
+      python:
+        - "2.7"
+      before_install:
+        - ./scripts/install_ansible.sh
+        - pip install ansible-lint
+      script:
+        - cd "$TRAVIS_BUILD_DIR"/ansible/playbooks
+        - ansible-lint *.yml
 
 notifications:
   slack:

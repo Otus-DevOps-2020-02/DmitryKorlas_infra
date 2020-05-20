@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.com/Otus-DevOps-2020-02/DmitryKorlas_infra.svg?branch=master)](https://travis-ci.com/Otus-DevOps-2020-02/DmitryKorlas_infra)
+
 # Homework: Lecture 5. Bastion host connection
 
 1. oneliner to connect to the someinternalhost throught proxy host (35.210.87.16)
@@ -298,6 +300,7 @@ To configure it, we have to follow few steps:
 6. #### re-create environment using terraform
     ```shell script
     cd PROJECT_ROOT/terraform/stage
+    terraform init
     terraform plan
     terraform apply
     ```
