@@ -11,20 +11,19 @@ branches:
     - ansible-3
     - master
 
-before_install:
-- curl https://raw.githubusercontent.com/express42/otus-homeworks/2020-02/run.sh |
-  bash
-
 jobs:
   include:
+    - name: check outus homework
+      before_install:
+        - curl https://raw.githubusercontent.com/express42/otus-homeworks/2020-02/run.sh |
+          bash
+
     - name: check packer configs
       language: generic
       before_install:
         - wget https://releases.hashicorp.com/packer/"$PACKER_VERSION"/packer_"$PACKER_VERSION"_linux_amd64.zip -O /tmp/packer.zip
         - sudo unzip -o /tmp/packer.zip -d /usr/local/bin/
         - ./scripts/install_ansible.sh
-#      install:
-#       - cd packer
       script:
         - packer validate -var-file=./packer/variables.json.example ./packer/app.json
         - packer validate -var-file=./packer/variables.json.example ./packer/db.json

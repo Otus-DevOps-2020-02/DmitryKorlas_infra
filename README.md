@@ -127,13 +127,13 @@ gcloud compute instances create "my-reddit-full" \
 
 # Homework: Lecture 8. Terraform
 
-## the task *
+## the task :star:
 > add ssh key for user appuser_web using web GUI into the project metadata. What kind of issues you're see?
 
 1. I see a message "SSH keys must be unique. The key has been already added.". So, it's unable to use the same key for multiple users.
 2. When I invoke `terraform apply` - the manually added ssh key (appuser_web) has been replaced by the values from terraform config. So, I see it's not reasonable to change VM instance settings manually (using web GUI) when it controlled by terraform. All changes will be overwritten by terraform during `terafform apply`.
 
-## the task **
+## the task :star::star:
 > manually add reddit-app2 as a second instance. What kind of problem in this configuration?
 
 The problem here is verbosity of config. We should not copy paste the same configuration. Keep DRY (dont repeat yourself) principles.
@@ -145,7 +145,7 @@ So, for solving this issue, we can use `count` parameter - it's helpful for crea
 - https://registry.terraform.io/modules/SweetOps/storage-bucket/google/0.3.1
 - https://www.terraform.io/docs/provisioners/null_resource.html
 
-## the task *
+## the task :star:
 > Attempt to run prod/stage configuration at the same time (simultaneously)
 
 ```shell script
@@ -218,12 +218,12 @@ ansible-playbook clone.yml
 ```
 According to the output we see that ansible does not detect the changes when git clone called multiple times.
 
-## the task *
+## the task :star:
 Add a static json file for inventory. Make sure `ansible all -m ping` works correctly.
 
 Added `inventory.static.json`. To run it, use this command `ansible all -m ping -i inventory.static.json`.
 
-## the task **
+## the task :star::star:
 Implement a script for dynamic inventory
 Added a script *get-puma-inventory.sh* - it will receive an ip addresses from gcloud.
 To run the external script, ansible.cfg has a parameter *inventory*.
@@ -257,7 +257,7 @@ ansible-playbook reddit_app.yml --limit db --tags db-tag
 ## Handlers
 Ansible has **handlers**. It's can be used for example to restart the service in case of config changes.
 
-## the task *
+## the task :star:
 Investigate how to deal with dynamic inventory. Describe and choose the optimal solution.
 
 Dynamic inventory implemented using [gcp_compute module](https://docs.ansible.com/ansible/latest/plugins/inventory/gcp_compute.html).
@@ -364,8 +364,9 @@ To be able to connect via ssh using login+pass, the target vm (ubuntu 16, GCP) w
 * add ip into whitelist `/etc/sshguard/whitelist`
 * restart sshguard `service sshguard restart`
 
-## the task *
+## the task :star:
 Configure dynamic inventory for environments stage and prod.
 The file **inventory.gcp_compute.yml** from the previous homework has been used.
 
+# the task :star::star:
 Travis config could be checked [online](https://config.travis-ci.com/explore).
