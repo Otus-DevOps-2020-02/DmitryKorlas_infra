@@ -370,3 +370,27 @@ The file **inventory.gcp_compute.yml** from the previous homework has been used.
 
 # the task :star::star:
 Travis config could be checked [online](https://config.travis-ci.com/explore).
+
+# Homework: Lecture 13. Ansible roles testing. Vagrant Molecule and Testinfra
+
+```shell script
+# run
+vagrunt up
+
+# destroy
+vagrant destroy -f
+
+# status
+vagrant status
+
+# display list of machines
+vagrant box list
+```
+
+```shell script
+# connect to host
+vagrant ssh appserver
+```
+
+## Links
+https://www.vagrantup.com/docs/provisioning/

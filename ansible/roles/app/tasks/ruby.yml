@@ -1,0 +1,15 @@
+---
+# this tasks is required for vagrant
+
+- name: apt-get update
+  apt:
+    update_cache: yes
+  tags: ruby
+
+- name: Install ruby packages
+  apt:
+    pkg:
+      - ruby-full
+      - ruby-bundler
+      - build-essential
+  tags: ruby
