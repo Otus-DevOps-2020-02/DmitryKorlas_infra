@@ -393,4 +393,6 @@ vagrant ssh appserver
 ```
 
 ## Links
-https://www.vagrantup.com/docs/provisioning/
+- https://www.vagrantup.com/docs/provisioning/
+- https://tech.osteel.me/posts/how-to-use-vagrant-for-local-web-development
+- https://github.com/elastic/beats/blob/master/Vagrantfile
