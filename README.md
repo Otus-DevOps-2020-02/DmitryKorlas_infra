@@ -371,7 +371,7 @@ The file **inventory.gcp_compute.yml** from the previous homework has been used.
 # the task :star::star:
 Travis config could be checked [online](https://config.travis-ci.com/explore).
 
-# Homework: Lecture 13. Ansible roles testing. Vagrant Molecule and Testinfra
+# Homework: Lecture 13. Ansible roles testing. Vagrant, Molecule and Testinfra
 
 ```shell script
 # run
@@ -392,7 +392,32 @@ vagrant box list
 vagrant ssh appserver
 ```
 
+```shell script
+# molecule < 3 is required.
+# create carcass for tests
+molecule init scenario --scenario-name default -r db -d vagrant
+
+# create vm
+molecule create
+
+# list instances
+molecule list
+
+# connect to vm
+molecule login -h instance
+
+# apply playbook
+molecule converge
+
+# run tests
+molecule verify
+```
+
 ## Links
 - https://www.vagrantup.com/docs/provisioning/
 - https://tech.osteel.me/posts/how-to-use-vagrant-for-local-web-development
 - https://github.com/elastic/beats/blob/master/Vagrantfile
+- https://docs.python-guide.org/dev/virtualenvs/
+- https://github.com/patrickdlee/vagrant-examples
+- https://varyingvagrantvagrants.org/docs/en-US/site-templates/nginx-configuration/
+- https://testinfra.readthedocs.io/en/latest/modules.html
