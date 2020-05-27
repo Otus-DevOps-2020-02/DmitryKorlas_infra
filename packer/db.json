@@ -29,7 +29,8 @@
   "provisioners": [
     {
       "type": "ansible",
-      "extra_arguments": ["-vvvv"],
+      "extra_arguments": ["-vvvv", "--tags", "install"],
+      "ansible_env_vars": ["ANSIBLE_ROLES_PATH={{ pwd }}/ansible/roles", "ANSIBLE_SSH_ARGS='-o IdentitiesOnly=yes'"],
       "playbook_file": "ansible/playbooks/packer_db.yml"
     }
   ]
