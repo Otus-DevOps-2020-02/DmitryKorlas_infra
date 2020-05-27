@@ -20,6 +20,11 @@ def test_mongo_running_and_enabled(host):
     assert mongo.is_running
     assert mongo.is_enabled
 
+# check if MongoDB listen the correct port
+def test_mongo_listen_correct_port(host):
+    mongo_host = host.addr("0.0.0.0")
+    assert mongo_host.port(27017).is_reachable
+
 # check if configuration file contains the required line
 def test_config_file(host):
     config_file = host.file('/etc/mongod.conf')
