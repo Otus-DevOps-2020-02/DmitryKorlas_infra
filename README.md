@@ -413,6 +413,15 @@ molecule converge
 molecule verify
 ```
 
+During packer db image creation the ssh error "failed to handshake" has terminated the process.
+Adding `IdentitiesOnly=yes` into the `~/.ssh/config` has resolved the issue.
+```shell script
+Host *
+  AddKeysToAgent yes
+  IdentityFile ~/.ssh/id_rsa
+  IdentitiesOnly=yes
+```
+
 ## Links
 - https://www.vagrantup.com/docs/provisioning/
 - https://tech.osteel.me/posts/how-to-use-vagrant-for-local-web-development
