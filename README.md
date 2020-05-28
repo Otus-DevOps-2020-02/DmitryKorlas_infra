@@ -372,6 +372,7 @@ The file **inventory.gcp_compute.yml** from the previous homework has been used.
 Travis config could be checked [online](https://config.travis-ci.com/explore).
 
 # Homework: Lecture 13. Ansible roles testing. Vagrant, Molecule and Testinfra
+This homework requires deprecated molecule v2.22.
 
 ```shell script
 # run
@@ -421,6 +422,10 @@ Host *
   IdentityFile ~/.ssh/id_rsa
   IdentitiesOnly=yes
 ```
+
+## the task :star:
+configure nginx to be used in vagrant
+see Vagrantfile - ansible.extra_vars has been updated
 
 ## Links
 - https://www.vagrantup.com/docs/provisioning/
